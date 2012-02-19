@@ -97,7 +97,7 @@ exports.msbuild = (function () {
       if (!str)
           return '';
       return str.replace(/\n$/, '');
-  }
+  };
 
   return function (options, callback) {
     processOptions(options);
