@@ -14,6 +14,7 @@ Execute MSBuild using this task by passing in the required parameters.
     msbuild({
         file: '../MySolution.sln'
       , version: 'net35'
+      , processor: 'x86'
       , targets: ['Clean', 'Build']
       , properties: { Configuration: 'Release' }
       , show_stdout: false
