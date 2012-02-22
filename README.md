@@ -1,6 +1,6 @@
-# Parsley - Sprinkle JavaScript tasks on your .NET build
+# Paprika - Sprinkle JavaScript tasks on your .NET build
 
-Parsley is a JavaScript library of tasks commonly performed while building .NET applications.
+Paprika is a JavaScript library of tasks commonly performed while building .NET applications.
 
 ## Tasks Included
 
@@ -10,7 +10,7 @@ At the moment, there is only one task. Hopefully, this will fill out as more tas
 
 Execute MSBuild using this task by passing in the required parameters.
 
-    var msbuild = require('./src/msbuild.js').msbuild;
+    var msbuild = require('paprika').msbuild;
     msbuild({
         file: '../MySolution.sln'
       , version: 'net35'
