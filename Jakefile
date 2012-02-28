@@ -21,4 +21,12 @@ var p = new jake.PackageTask(package.name, package.version, function () {
 	]);
 });
 
+task('publish', ['package'], function () {
+	var arc = package.name + '-' + package.version + '.tar.gz';
+	console.log('Publishing pkg/' + arc + '.');
+	jake.exec(['npm publish pkg/' + arc], function () {
+		complete();
+	}, {stdout: true});
+});
+
 task('default', ['lint']);
