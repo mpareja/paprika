@@ -2,13 +2,14 @@
 	"name": "paprika",
 	"description": "Sprinkle JavaScript tasks on your .NET build",
 	"keywords": [ "build", "cli", ".net", "msbuild", "mono" ],
-	"version": "0.1.1-build.1",
+	"version": "0.1.1-build.2",
 	"author": "Mario Pareja <pareja.mario@gmail.com> (http://mariopareja.com)",
 	"homepage": "https://github.com/mpareja/paprika",
 	"engines": { "node": "*" },
 	"directories": {
 		"lib": "./lib"
 	},
+	"main": "lib/paprika.js",
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/mpareja/paprika.git"
