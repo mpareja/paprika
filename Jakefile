@@ -1,4 +1,6 @@
-var path = require('path');
+var path = require('path')
+	,	fs = require('fs')
+	, package = require('./package');
 
 desc('Run jshint on all javascript files.');
 task('lint', function () {
@@ -9,5 +11,14 @@ task('lint', function () {
   }, {stdout: true, async: true});
 });
 
+// having this exposes a 'package' task
+var p = new jake.PackageTask(package.name, package.version, function () {
+	this.needTarGz = true;
+	this.packageFiles.include([
+		'README.md'
+	,	'package.json'
+	, 'lib/*'
+	]);
+});
 
 task('default', ['lint']);
