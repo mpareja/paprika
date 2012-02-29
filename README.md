@@ -18,4 +18,6 @@ Execute MSBuild using this task by passing in the required parameters.
       , targets: ['Clean', 'Build']
       , properties: { Configuration: 'Release' }
       , show_stdout: false
+      , buildCommand: 'xbuild' // customize the location of MSBuild.exe (or xbuild)
+      , extraParameters: '/nologo /version' // add any additional parameters
     });
