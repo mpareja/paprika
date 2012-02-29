@@ -1,0 +1,129 @@
+info it worked if it ends with ok
+verbose cli [ 'node',
+verbose cli   '/usr/bin/npm',
+verbose cli   'publish',
+verbose cli   'pkg/paprika-0.1.1-build.2.tar.gz' ]
+info using npm@1.1.0-2
+info using node@v0.6.11
+verbose /usr/bin/node node symlink
+verbose config file /home/mpareja/.npmrc
+verbose config file /usr/etc/npmrc
+verbose config file /usr/lib/nodejs/npm/npmrc
+verbose publish [ 'pkg/paprika-0.1.1-build.2.tar.gz' ]
+verbose cache add [ 'pkg/paprika-0.1.1-build.2.tar.gz', null ]
+silly cache add: name, spec, args [ undefined,
+silly cache add: name, spec, args   'pkg/paprika-0.1.1-build.2.tar.gz',
+silly cache add: name, spec, args   [ 'pkg/paprika-0.1.1-build.2.tar.gz', null ] ]
+verbose parsed url { pathname: 'pkg/paprika-0.1.1-build.2.tar.gz',
+verbose parsed url   path: 'pkg/paprika-0.1.1-build.2.tar.gz',
+verbose parsed url   href: 'pkg/paprika-0.1.1-build.2.tar.gz' }
+verbose mkdir (expected) error ENOENT, no such file or directory '/tmp/npm-1330550319921'
+verbose mkdir (expected) error ENOENT, no such file or directory '/tmp/npm-1330550319921/1330550319921-0.2903307587839663'
+verbose mkdir done: /tmp/npm-1330550319921/1330550319921-0.2903307587839663 755
+verbose chmod /tmp/npm-1330550319921/1330550319921-0.2903307587839663/tmp.tgz 644
+verbose mkdir (expected) error ENOENT, no such file or directory '/tmp/npm-1330550319921/1330550319921-0.2903307587839663/___package.npm'
+verbose mkdir done: /tmp/npm-1330550319921/1330550319921-0.2903307587839663/___package.npm 755
+verbose unpack_ uid, gid [ undefined, undefined ]
+verbose unpackTarget /tmp/npm-1330550319921/1330550319921-0.2903307587839663/package
+silly gunzTarPerm modes [ '755', '644' ]
+silly afterUntar undefined
+silly asyncMap in gTP /tmp/npm-1330550319921/1330550319921-0.2903307587839663/___package.npm/paprika-0.1.1-build.2
+silly asyncMap in gTP /tmp/npm-1330550319921/1330550319921-0.2903307587839663/___package.npm/paprika-0.1.1-build.2/package.json
+silly asyncMap in gTP /tmp/npm-1330550319921/1330550319921-0.2903307587839663/___package.npm/paprika-0.1.1-build.2/README.md
+silly asyncMap in gTP /tmp/npm-1330550319921/1330550319921-0.2903307587839663/___package.npm/paprika-0.1.1-build.2/lib
+silly asyncMap in gTP /tmp/npm-1330550319921/1330550319921-0.2903307587839663/___package.npm/paprika-0.1.1-build.2/lib/msbuild.js
+silly asyncMap in gTP /tmp/npm-1330550319921/1330550319921-0.2903307587839663/___package.npm/paprika-0.1.1-build.2/lib/paprika.js
+verbose gunzed /tmp/npm-1330550319921/1330550319921-0.2903307587839663/___package.npm/paprika-0.1.1-build.2
+verbose rm'ed /tmp/npm-1330550319921/1330550319921-0.2903307587839663/package
+verbose renamed [ '/tmp/npm-1330550319921/1330550319921-0.2903307587839663/___package.npm/paprika-0.1.1-build.2',
+verbose renamed   '/tmp/npm-1330550319921/1330550319921-0.2903307587839663/package' ]
+verbose caching /tmp/npm-1330550319921/1330550319921-0.2903307587839663/package/package.json
+verbose loadDefaults paprika@0.1.1-build.2
+verbose tarball contents [ 'tmp.tgz', 'package' ]
+verbose from cache /tmp/npm-1330550319921/1330550319921-0.2903307587839663/package/package.json
+verbose pack /tmp/npm-1330550319921/1330550319921-0.2903307587839663/package
+verbose pack /tmp/npm-1330550319921/1330550319921-0.2903307587839663/package /home/mpareja/.npm/paprika/0.1.1-build.2/package.tgz
+silly makeList /tmp/npm-1330550319921/1330550319921-0.2903307587839663/package
+silly dir, dirLen [ '/tmp/npm-1330550319921/1330550319921-0.2903307587839663/package',
+silly dir, dirLen   64 ]
+verbose tarball /home/mpareja/.npm/paprika/0.1.1-build.2/package.tgz
+verbose parent /tmp/npm-1330550319921/1330550319921-0.2903307587839663/package
+verbose mkdir (expected) error ENOENT, no such file or directory '/home/mpareja/.npm/paprika/0.1.1-build.2/___package.npm'
+verbose mkdir done: /home/mpareja/.npm/paprika/0.1.1-build.2/___package.npm 755
+verbose unpack_ uid, gid [ undefined, undefined ]
+verbose unpackTarget /home/mpareja/.npm/paprika/0.1.1-build.2/package
+silly gunzTarPerm modes [ '755', '644' ]
+silly afterUntar undefined
+silly asyncMap in gTP /home/mpareja/.npm/paprika/0.1.1-build.2/___package.npm/package
+silly asyncMap in gTP /home/mpareja/.npm/paprika/0.1.1-build.2/___package.npm/package/package.json
+silly asyncMap in gTP /home/mpareja/.npm/paprika/0.1.1-build.2/___package.npm/package/README.md
+silly asyncMap in gTP /home/mpareja/.npm/paprika/0.1.1-build.2/___package.npm/package/lib
+silly asyncMap in gTP /home/mpareja/.npm/paprika/0.1.1-build.2/___package.npm/package/lib/paprika.js
+silly asyncMap in gTP /home/mpareja/.npm/paprika/0.1.1-build.2/___package.npm/package/lib/msbuild.js
+verbose gunzed /home/mpareja/.npm/paprika/0.1.1-build.2/___package.npm/package
+verbose rm'ed /home/mpareja/.npm/paprika/0.1.1-build.2/package
+verbose renamed [ '/home/mpareja/.npm/paprika/0.1.1-build.2/___package.npm/package',
+verbose renamed   '/home/mpareja/.npm/paprika/0.1.1-build.2/package' ]
+verbose caching /home/mpareja/.npm/paprika/0.1.1-build.2/package/package.json
+verbose loadDefaults paprika@0.1.1-build.2
+silly updated sha bytes 2469
+info shasum 27a074ce2a60e857ffd12bcf7bfd7fd4d0cf6119
+info shasum /home/mpareja/.npm/paprika/0.1.1-build.2/package.tgz
+verbose from cache /home/mpareja/.npm/paprika/0.1.1-build.2/package/package.json
+verbose chmod /home/mpareja/.npm/paprika/0.1.1-build.2/package.tgz 644
+verbose chown [ '/home/mpareja/.npm/paprika/0.1.1-build.2/package.tgz',
+verbose chown   1000,
+verbose chown   1000 ]
+silly publish { name: 'paprika',
+silly publish   description: 'Sprinkle JavaScript tasks on your .NET build',
+silly publish   keywords: [ 'build', 'cli', '.net', 'msbuild', 'mono' ],
+silly publish   version: '0.1.1-build.2',
+silly publish   author: 
+silly publish    { name: 'Mario Pareja',
+silly publish      email: 'pareja.mario@gmail.com',
+silly publish      url: 'http://mariopareja.com' },
+silly publish   homepage: 'https://github.com/mpareja/paprika',
+silly publish   engines: { node: '*' },
+silly publish   directories: { lib: './lib' },
+silly publish   main: 'lib/paprika.js',
+silly publish   repository: { type: 'git', url: 'git://github.com/mpareja/paprika.git' },
+silly publish   _npmUser: { name: 'mpareja', email: 'pareja.mario@gmail.com' },
+silly publish   _id: 'paprika@0.1.1-build.2',
+silly publish   dependencies: {},
+silly publish   devDependencies: {},
+silly publish   optionalDependencies: {},
+silly publish   _engineSupported: true,
+silly publish   _npmVersion: '1.1.0-2',
+silly publish   _nodeVersion: 'v0.6.11',
+silly publish   _defaultsLoaded: true,
+silly publish   dist: 
+silly publish    { shasum: '27a074ce2a60e857ffd12bcf7bfd7fd4d0cf6119',
+silly publish      tarball: 'http://registry.npmjs.org/paprika/-/paprika-0.1.1-build.2.tgz' },
+silly publish   scripts: {} }
+info prepublish paprika@0.1.1-build.2
+verbose raw, before any munging paprika
+verbose url resolving [ 'https://registry.npmjs.org/', './paprika' ]
+verbose url resolved https://registry.npmjs.org/paprika
+http PUT https://registry.npmjs.org/paprika
+http 409 https://registry.npmjs.org/paprika
+verbose raw, before any munging paprika
+verbose url resolving [ 'https://registry.npmjs.org/', './paprika' ]
+verbose url resolved https://registry.npmjs.org/paprika
+http GET https://registry.npmjs.org/paprika
+http 200 https://registry.npmjs.org/paprika
+info Already published paprika@0.1.1-build.2
+verbose uploading bin dists []
+ERR! publish fail Cannot publish over existing version.
+ERR! publish fail Bump the 'version' field, set the --force flag, or
+ERR! publish fail     npm unpublish 'paprika@0.1.1-build.2'
+ERR! publish fail and try again
+ERR! 
+ERR! System Linux 2.6.35-32-generic
+ERR! command "node" "/usr/bin/npm" "publish" "pkg/paprika-0.1.1-build.2.tar.gz"
+ERR! cwd /home/mpareja/projects/paprika
+ERR! node -v v0.6.11
+ERR! npm -v 1.1.0-2
+ERR! code EPUBLISHCONFLICT
+ERR! message publish fail
+ERR! errno {}
+verbose exit [ 1, true ]
