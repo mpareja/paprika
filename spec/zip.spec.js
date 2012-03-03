@@ -1,5 +1,6 @@
 var zip = require('../lib/paprika').zip
-  , arch = process.arch;
+  , arch = process.arch
+  , platform = process.platform;
 
 describe('zip', function () {
   var called
@@ -16,6 +17,7 @@ describe('zip', function () {
   beforeEach(function() {
     // reset state
     process.arch = arch;
+    process.platform = platform;
     called = false;
     procname = null;
 
@@ -44,7 +46,22 @@ describe('zip', function () {
     expect(args).toEqual(['my arguments']);
   });
 
-  describe('on windows', function () {
+  describe('on non-windows machine', function () {
+    beforeEach(function () {
+      process.platform = 'linux';
+    });
+
+    it('should execute the system-wide zip process', function () {
+      go();
+      expect(procname).toEqual('zip');
+    });
+  });
+
+  describe('on windows machine', function () {
+    beforeEach(function () {
+      process.platform = 'win32';
+    });
+
     it('should execute a child process', function () {
       go();
       expect(called).toBeTruthy();
@@ -65,7 +82,7 @@ describe('zip', function () {
     it('should use the zip executable in the tools dir.', function () {
       go();
       expect(procname).toStartWith(
-        require('path').join(process.cwd(), 'tools', 'zip'));
+      require('path').join(process.cwd(), 'tools', 'zip'));
     });
   });
 });
