@@ -11,6 +11,13 @@ task('lint', function () {
   }, {stdout: true, async: true});
 });
 
+desc('Run the jasmine tests.');
+task('test', function () {
+  jake.exec(['jasmine-node spec'], function (code) {
+      complete();
+  }, { stdout:true, async: false });
+});
+
 // having this exposes a 'package' task
 var p = new jake.PackageTask(package.name, package.version, function () {
 	this.needTarGz = true;
@@ -29,4 +36,4 @@ task('publish', ['package'], function () {
 	}, {stdout: true});
 });
 
-task('default', ['lint']);
+task('default', ['lint', 'test']);
