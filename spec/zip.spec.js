@@ -4,10 +4,12 @@ var zip = require('../lib/paprika').zip
 describe('zip', function () {
   var called
     , procname
-    , go = function() {
-        zip({}, function(name) {
+    , args
+    , go = function(theArguments) {
+        zip(theArguments || {}, function(name, receivedArgs) {
           called = true;
           procname = name;
+          args = receivedArgs;
         });
       };
 
@@ -32,8 +34,14 @@ describe('zip', function () {
     });
   });
 
-  it('should pass all arguments when executing the zip process.', function () {
+  it('should pass cmd line arguments array when executing the zip process.', function () {
+    go(['my arguments']);
+    expect(args).toEqual(['my arguments']);
+  });
 
+  it('should convert single string cmd line arguments to array when executing the zip process', function () {
+    go('my arguments');
+    expect(args).toEqual(['my arguments']);
   });
 
   describe('on windows', function () {
