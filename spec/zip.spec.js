@@ -2,9 +2,20 @@ var zip = require('../lib/paprika').zip
   , arch = process.arch;
 
 describe('zip', function () {
+  var called
+    , procname
+    , go = function() {
+        zip({}, function(name) {
+          called = true;
+          procname = name;
+        });
+      };
+
   beforeEach(function() {
-    // reset arch
+    // reset state
     process.arch = arch;
+    called = false;
+    procname = null;
 
     this.addMatchers({
       toEndWith: function(expected) {
@@ -21,15 +32,11 @@ describe('zip', function () {
     });
   });
 
-  describe('on windows', function () {
-    var called, procname
-      , go = function() {
-          zip({}, function(name) {
-            called = true;
-            procname = name;
-          });
-        };
+  it('should pass all arguments when executing the zip process.', function () {
 
+  });
+
+  describe('on windows', function () {
     it('should execute a child process', function () {
       go();
       expect(called).toBeTruthy();
