@@ -1,26 +1,28 @@
 var zip = require('../lib/paprika').zip
   , arch = process.arch
-  , platform = process.platform;
+  , platform = process.platform
+  , fs = require('fs')
+  , path = require('path');
 
 describe('zip', function () {
   var called
     , procname
     , args
     , go = function(theArguments) {
-        zip(theArguments || {}, function(name, receivedArgs) {
+        zip(theArguments || [], function(name, receivedArgs) {
           called = true;
           procname = name;
           args = receivedArgs;
         });
+      }
+    , reset = function () {
+        process.arch = arch;
+        process.platform = platform;
+        called = false;
+        procname = null;
       };
 
   beforeEach(function() {
-    // reset state
-    process.arch = arch;
-    process.platform = platform;
-    called = false;
-    procname = null;
-
     this.addMatchers({
       toEndWith: function(expected) {
         var ix = this.actual.lastIndexOf(expected)
@@ -35,6 +37,8 @@ describe('zip', function () {
       }
     });
   });
+  
+  afterEach(reset);
 
   it('should pass cmd line arguments array when executing the zip process.', function () {
     go(['my arguments']);
@@ -84,5 +88,35 @@ describe('zip', function () {
       expect(procname).toStartWith(
       require('path').join(process.cwd(), 'tools', 'zip'));
     });
+  });
+});
+
+describe('zip integration test', function () {
+  var target = 'ziptest.zip'
+    , assertExists = function() { 
+        path.exists(target, function (exists) {
+            expect(exists).toBeTruthy();
+            if (exists) {
+              fs.unlinkSync(target);
+            }
+            asyncSpecDone();
+        });
+      };
+
+  it('should be able to zip files', function () {
+    var handle = zip(['-r', target, 'tools']);
+    handle.on('exit', function(code) {
+      expect(code).toEqual(0);
+      assertExists();
+    });
+    /*
+    handle.stdout.on('data', function (data) {
+      console.log((data.toString()));
+    });
+    handle.stderr.on('data', function (data) {
+      console.log((data.toString()));
+    });
+    */
+    asyncSpecWait();
   });
 });
