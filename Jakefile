@@ -4,8 +4,7 @@ var path = require('path')
 
 desc('Run jshint on all javascript files.');
 task('lint', function () {
-  var jshint = path.join('node_modules', '.bin', 'jshint');
-  jake.exec([jshint + ' lib spec'], function () {
+  jake.exec([binpath('jshint') + ' lib spec'], function () {
     console.log('Passed JSHint tests.');
     complete();
   }, {stdout: true, async: true});
@@ -13,7 +12,7 @@ task('lint', function () {
 
 desc('Run the jasmine tests.');
 task('test', function () {
-  jake.exec(['jasmine-node spec'], function (code) {
+  jake.exec([binpath('jasmine-node') + ' spec'], function (code) {
       complete();
   }, { stdout:true, async: false });
 });
@@ -37,3 +36,7 @@ task('publish', ['package'], function () {
 });
 
 task('default', ['lint', 'test']);
+
+function binpath (package) {
+	return path.join('node_modules', '.bin', package);
+}
