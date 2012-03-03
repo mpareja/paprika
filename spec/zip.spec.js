@@ -4,6 +4,8 @@ var zip = require('../lib/paprika').zip
   , fs = require('fs')
   , path = require('path');
 
+require('../lib/log').level = 'none';
+
 describe('zip', function () {
   var called
     , procname
