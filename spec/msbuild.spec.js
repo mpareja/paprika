@@ -23,6 +23,14 @@ describe('default msbuild options', function() {
   it('should show stderr', function () {
     expect(options.show_stderr).toBeTruthy();
   });
+
+  it('should not have default build properties', function () {
+    expect(options.properties).toBeUndefined();
+  });
+
+  it('should not have default extra parameters', function () {
+    expect(options.extraParameters).toBeUndefined();
+  });
 });
 
 describe('overridden msbuild defaults', function () {
@@ -52,16 +60,28 @@ describe('overridden msbuild defaults', function () {
     processWithOverride('targets', ['Clean']);
   });
 
-  it('should allow overridding the processor', function () {
+  it('should allow overriding the processor', function () {
     processWithOverride('processor', 'x64');
   });
 
-  it('should allow overridding the show stdout default', function () {
+  it('should allow overriding the show stdout default', function () {
     processWithOverride('show_stdout', false);
   });
 
-  it('should allow overridding the show stderr default', function () {
+  it('should allow overriding the show stderr default', function () {
     processWithOverride('show_stderr', false);
+  });
+
+  it('should allow overriding the properties', function () {
+    processWithOverride('properties', { Configuration: 'Release' });
+  });
+
+  it('should allow overriding the build command', function () {
+    processWithOverride('buildCommand', 'xbuild');
+  });
+
+  it('should allow overriding extra parameters', function () {
+    processWithOverride('extraParameters', 'myparm');
   });
 });
 

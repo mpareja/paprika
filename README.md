@@ -22,6 +22,14 @@ Execute MSBuild using this task by passing in the required parameters.
       , extraParameters: '/nologo /version' // add any additional parameters
     });
 
+You can specify default values to prevent repeating yourself.
+
+    var msbuild = require('paprika').msbuild;
+    msbuild.setDefaults({
+        properties: { Configuration: 'Release' }
+      , buildCommand: 'xbuild'
+    });
+
 ### ZIP task
 
 Execute the zip command passing in the desired arguments. This determines what version of zip (www.info-zip.org) to use depending on the platform and architecture. The zip function accepts command line parameters as either a single string, or an array of strings.
