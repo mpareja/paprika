@@ -1,14 +1,35 @@
 var path = require('path')
-	,	fs = require('fs')
-	, package = require('./package');
+  , fs = require('fs')
+  , package = require('./package')
+  , glob = require('glob')
+  , spawn = require('child_process').spawn;
 
-desc('Run jshint on all javascript files.');
+desc('Run JSLint on all javascript files.');
 task('lint', function () {
-  jake.exec([binpath('jshint') + ' lib spec'], function () {
-    console.log('Passed JSHint tests.');
+  var args = [
+      path.join('node_modules', 'jslint', 'bin', 'jslint.js'),
+      '--devel=true',
+      '--node=true',
+      '--vars=true',
+      '--maxerr=100',
+      '--indent=2',
+      '--'
+    ],
+    files = glob.sync('./lib/*.js');
+
+  // HACK: redirect output directly to file descriptors 0,1 and 2
+  // to avoid stream truncation issue on Windows.
+  var handle = spawn('node', args.concat(files), { customFds: [0,1,2] });
+  handle.on('exit', function(code) {
+    if (code === 0) {
+      console.log('Passed JSLint tests.');
+    }
+    else {
+      fail('Failed JSLint tests.');
+    }
     complete();
-  }, {stdout: true, async: true});
-});
+  });
+}, { async: true });
 
 desc('Run the jasmine tests.');
 task('test', function () {

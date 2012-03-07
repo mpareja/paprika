@@ -14,5 +14,5 @@
 		"type": "git",
 		"url": "git://github.com/mpareja/paprika.git"
 	},
-	"devDependencies": [ "jshint", "jasmine-node", "jake" ]
+	"devDependencies": [ "jslint", "jasmine-node", "jake", "glob" ]
 }
