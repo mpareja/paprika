@@ -1,10 +1,22 @@
 var msb = require('../lib/paprika').msbuild;
 
+function getDefaultExpected() {
+  return {
+    file: 'somefile',
+    targets: ['Build'],
+    processor: 'x86',
+    version: 'net35',
+    show_stdout: true,
+    show_stderr: true
+  };
+}
+
 describe('default msbuild options', function() {
   var options;
   beforeEach(function () {
     options = msb.processOptions({
-      file: 'somefile'
+      file: 'somefile',
+      version: 'net35'
     });
   });
 
@@ -33,28 +45,55 @@ describe('default msbuild options', function() {
   });
 });
 
+describe('inline msbuild settings', function () {
+  var options,
+    processWithInline = function (name, value) {
+      var inline = { 
+        file: 'somefile',
+        version: 'net35'
+      };
+      inline[name] = value;
+
+      options = msb.processOptions(inline);
+      var expected = getDefaultExpected();
+      expected[name] = value;
+      expect(options).toEqual(expected);
+    };
+
+  it('should allow setting an inline file', function () {
+    processWithInline('file', 'otherfile');
+  });
+
+  it('should allow setting an inline target', function () {
+    processWithInline('targets', ['Test']);
+  });
+
+  it('should allow setting an inline processor', function () {
+    processWithInline('processor', 'x64');
+  });
+
+  it('should allow setting an inline version', function () {
+    processWithInline('version', 'net20');
+  });
+});
+
 describe('overridden msbuild defaults', function () {
   var options,
-    getDefaultExpected = function() {
-      return {
-        file: 'somefile',
-        targets: ['Build'],
-        processor: 'x86',
-        show_stdout: true,
-        show_stderr: true
-      };
-    },
     processWithOverride = function (name, value) {
-      var overrides = {};
+      var overrides = { version: 'net35' };
       overrides[name] = value;
       msb.setDefaults(overrides);
 
-      options = msb.processOptions({ file: 'somefile' });
+      options = msb.processOptions({
+        file: 'somefile'
+      });
 
       var expected = getDefaultExpected();
       expected[name] = value;
       expect(options).toEqual(expected);
     };
+
+  afterEach(function () { msb.resetDefaults(); });
 
   it('should allow overriding the target', function() {
     processWithOverride('targets', ['Clean']);
@@ -82,6 +121,10 @@ describe('overridden msbuild defaults', function () {
 
   it('should allow overriding extra parameters', function () {
     processWithOverride('extraParameters', 'myparm');
+  });
+
+  it('should allow setting a default framework version', function () {
+    processWithOverride('version', 'net11');
   });
 });
 
