@@ -16,6 +16,8 @@ task('lint', function () {
       '--sloppy=true', // don't require "use strict" everywhere
       '--nomen=true', // don't give warnings for __dirname
       '--undef',
+      '--plusplus',
+      '--minusminus',
       '--'
     ],
     files = glob.sync('./lib/*.js');
