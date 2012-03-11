@@ -108,7 +108,7 @@ describe('runcmd', function () {
 
     it('should require cmd parameter to be a string', function () {
       expect(function () {
-        runcmd([]);
+        pa();
       }).toThrow(new Error('Invalid parameter: cmd.'));
     });
   });
