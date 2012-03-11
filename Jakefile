@@ -25,28 +25,13 @@ task('lint', function () {
 
   // HACK: redirect output directly to file descriptors 0,1 and 2
   // to avoid stream truncation issue on Windows.
-  var handle = spawn('node', args.concat(files), { customFds: [0, 1, 2] });
-  handle.on('exit', function (code) {
-    if (code === 0) {
-      console.log('Passed JSLint tests.');
-    } else {
-      fail('Failed JSLint tests.');
-    }
-    complete();
-  });
+  execute('node', args.concat(files), 'Passed JSLint tests.', 'Failed JSLint tests.');
 }, { async: true });
 
 desc('Run the jasmine tests.');
 task('test', function () {
-  var cmd = binpath('jasmine-node') + ' spec';
-  jake.exec([cmd], checkForPass, { stdout: true, stderr: true, async: false });
-
-  function checkForPass(code) {
-    if (code !== 0) {
-      fail('Tests failed.');
-    }
-    complete();
-  }
+  var cmd = path.join('node_modules', 'jasmine-node', 'bin', 'jasmine-node');
+  execute('node', [cmd, 'spec'], 'Tests passed.', 'Tests failed.');
 });
 
 // this exposes a 'package' task
@@ -72,3 +57,24 @@ task('default', ['lint', 'test']);
 function binpath(lib) {
 	return path.join('node_modules', '.bin', lib);
 }
+
+function execute(cmd, args, successMessage, failureMessage, dontComplete) {
+  if (typeof args === 'string') {
+    args = [args];
+  }
+
+  // HACK: redirect output directly to file descriptors 0,1 and 2
+  // to avoid stream truncation issue on Windows.
+  var handle = spawn(cmd, args, { customFds: [0, 1, 2] });
+  handle.on('exit', function (code) {
+    if (code === 0) {
+      console.log(successMessage);
+    } else {
+      fail(failureMessage);
+    }
+    if (!dontComplete) {
+      complete();
+    }
+  });
+}
+
