@@ -54,6 +54,19 @@ task('publish', ['package'], function () {
 	}, {stdout: true});
 });
 
+task('autotest', function () {
+  test();
+  function test() {
+    console.log('-------- Running Tests ---------\n\n');
+    var cmd = path.join('node_modules', 'jasmine-node', 'bin', 'jasmine-node'),
+      handle = spawn('node', [cmd, 'spec'], { customFds: [0, 1, 2] });
+
+    handle.on('exit', function () {
+      setTimeout(test, 6000);
+    });
+  }
+});
+
 task('default', ['lint', 'test']);
 
 function binpath(lib) {
