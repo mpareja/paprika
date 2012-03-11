@@ -97,6 +97,15 @@ describe('runcmd', function () {
       });
     });
 
+    it('should support passing command line arguments as string', function () {
+      var params = pa('cmd', 'my arguments');
+      expect(params).toEqual({
+        cmd: 'cmd',
+        args: ['my arguments'],
+        options: {}
+      });
+    });
+
     it('should require cmd parameter to be a string', function () {
       expect(function () {
         runcmd([]);
