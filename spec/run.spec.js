@@ -1,6 +1,11 @@
 var run = require('../lib/paprika').run;
   pa = run.processArguments,
-  defaultOptions = { stdout: true, stderr: true };
+  defaultOptions = function () {
+    return { stdout: true, stderr: true }
+  },
+  customOptions = function () {
+    return { stdout: false, stderr: false }
+  };
 
 describe('run', function () {
   describe('parameter parsing', function () {
@@ -8,7 +13,7 @@ describe('run', function () {
       expect(pa('cmd')).toEqual({
         cmd: 'cmd',
         args: [],
-        options: defaultOptions
+        options: defaultOptions()
       });
     });
     
@@ -19,13 +24,13 @@ describe('run', function () {
       expect(params).toEqual({
         cmd: 'cmd',
         args: [],
-        options: defaultOptions,
+        options: defaultOptions(),
         callback: callback
       });
     });
 
     it('should support parameters: cmd, options', function () {
-      var options = { bob: 'test' },
+      var options = customOptions(),
         params = pa('cmd', options);
 
       expect(params).toEqual({
@@ -42,7 +47,7 @@ describe('run', function () {
       expect(params).toEqual({
         cmd: 'cmd',
         args: args,
-        options: defaultOptions
+        options: defaultOptions()
       });
     });
 
@@ -54,14 +59,14 @@ describe('run', function () {
       expect(params).toEqual({
         cmd: 'cmd',
         args: args,
-        options: defaultOptions,
+        options: defaultOptions(),
         callback: callback
       });
     });
 
     it('should support parameters: cmd, args, options', function () {
       var args = ['test'],
-        options = { bob: 'test' },
+        options = customOptions(),
         params = pa('cmd', args, options);
 
       expect(params).toEqual({
@@ -73,7 +78,7 @@ describe('run', function () {
 
     it('should support parameters: cmd, args, options', function () {
       var callback = function () {},
-        options = { bob: 'test' },
+        options = customOptions(),
         params = pa('cmd', callback, options);
 
       expect(params).toEqual({
@@ -87,7 +92,7 @@ describe('run', function () {
     it('should support parameters: cmd, args, options', function () {
       var args = ['test'],
         callback = function () {},
-        options = { bob: 'test' },
+        options = customOptions(),
         params = pa('cmd', args, callback, options);
 
       expect(params).toEqual({
@@ -103,7 +108,7 @@ describe('run', function () {
       expect(params).toEqual({
         cmd: 'cmd',
         args: ['my arguments'],
-        options: defaultOptions
+        options: defaultOptions()
       });
     });
 
@@ -114,4 +119,21 @@ describe('run', function () {
     });
   });
 
+  describe('options', function () {
+    it('should be able to specify whether to show sdtout', function () {
+      runAndVerifyOption({ stdout: false }, { stdout: false, stderr: true });
+    });
+
+    it('should be able to specify whether to show stderr', function () {
+      runAndVerifyOption({ stderr: false }, { stdout: true, stderr: false });
+    });
+
+    function runAndVerifyOption(options, expected) {
+      expect(pa('cmd', options)).toEqual({
+        cmd: 'cmd',
+        args: [],
+        options: expected
+      });
+    }
+  });
 });
