@@ -6,8 +6,8 @@ function getDefaultExpected() {
     targets: ['Build'],
     processor: 'x86',
     version: 'net35',
-    show_stdout: true,
-    show_stderr: true
+    stdout: true,
+    stderr: true
   };
 }
 
@@ -29,11 +29,11 @@ describe('default msbuild options', function() {
   });
 
   it('should show stdout', function () {
-    expect(options.show_stdout).toBeTruthy();
+    expect(options.stdout).toBeTruthy();
   });
 
   it('should show stderr', function () {
-    expect(options.show_stderr).toBeTruthy();
+    expect(options.stderr).toBeTruthy();
   });
 
   it('should not have default build properties', function () {
@@ -89,7 +89,13 @@ describe('overridden msbuild defaults', function () {
       });
 
       var expected = getDefaultExpected();
-      expected[name] = value;
+      if (name === 'show_stdout') {
+        expected['stdout'] = value;
+      } else if (name === 'show_stderr') {
+        expected['stderr'] = value;
+      } else {
+        expected[name] = value;
+      }
       expect(options).toEqual(expected);
     };
 
@@ -109,6 +115,14 @@ describe('overridden msbuild defaults', function () {
 
   it('should allow overriding the show stderr default', function () {
     processWithOverride('show_stderr', false);
+  });
+
+  it('should allow overriding the show stdout default', function () {
+    processWithOverride('stdout', false);
+  });
+
+  it('should allow overriding the show stderr default', function () {
+    processWithOverride('stderr', false);
   });
 
   it('should allow overriding the properties', function () {
