@@ -38,3 +38,26 @@ Run the zip command with the passed in command line arguments. This task determi
     var zip = require('paprika').zip;
     zip('-r deploy_package ./package');
     zip(['-r', 'deploy_package', './package']);
+
+### Run task
+
+The run task takes the effort out of calling out to other processes. It takes care of operating system specific idiosyncrasies (I'm looking at you node for Windows) and assumes you either want output redirected to the console (default) or not at all. Here is a simple example to get started:
+
+    run('pwd');
+
+The run function requires one parameters: the filename (may include path) of the process to run. It has several optional parameters - here is the function signature along with some other examples:
+
+    // run(cmd [, args] [, options] [, callback])
+    var run = require('paprika').run;
+    run('node', '--version', {
+      stdout: false // by default, stdout is redirected to console
+      stderr: false // by default, stderr is redirected to console
+    }, function () { complete(); });
+
+    run('mycmd', ['many', 'options']);
+
+    run('prevent_meltdown', function (code) {
+      if (code !== 0) {
+        runLikeHell();
+      }
+    });
