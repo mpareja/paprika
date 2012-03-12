@@ -1,5 +1,6 @@
 var run = require('../lib/paprika').run;
-  pa = run.processArguments;
+  pa = run.processArguments,
+  defaultOptions = { stdout: true, stderr: true };
 
 describe('run', function () {
   describe('parameter parsing', function () {
@@ -7,7 +8,7 @@ describe('run', function () {
       expect(pa('cmd')).toEqual({
         cmd: 'cmd',
         args: [],
-        options: {}
+        options: defaultOptions
       });
     });
     
@@ -18,7 +19,7 @@ describe('run', function () {
       expect(params).toEqual({
         cmd: 'cmd',
         args: [],
-        options: {},
+        options: defaultOptions,
         callback: callback
       });
     });
@@ -41,7 +42,7 @@ describe('run', function () {
       expect(params).toEqual({
         cmd: 'cmd',
         args: args,
-        options: {}
+        options: defaultOptions
       });
     });
 
@@ -53,7 +54,7 @@ describe('run', function () {
       expect(params).toEqual({
         cmd: 'cmd',
         args: args,
-        options: {},
+        options: defaultOptions,
         callback: callback
       });
     });
@@ -102,7 +103,7 @@ describe('run', function () {
       expect(params).toEqual({
         cmd: 'cmd',
         args: ['my arguments'],
-        options: {}
+        options: defaultOptions
       });
     });
 
