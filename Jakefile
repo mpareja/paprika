@@ -2,7 +2,7 @@ var path = require('path'),
   fs = require('fs'),
   pckg = require('./package'),
   glob = require('glob'),
-  spawn = require('child_process').spawn;
+  runcmd = require('./lib/paprika').runcmd;
 
 desc('Run JSLint on all javascript files.');
 task('lint', function () {
@@ -27,13 +27,13 @@ task('lint', function () {
 
   // HACK: redirect output directly to file descriptors 0,1 and 2
   // to avoid stream truncation issue on Windows.
-  execute('node', args.concat(files), 'Passed JSLint tests.', 'Failed JSLint tests.');
+  execute('node', args.concat(files), '*** JSLint passed. ***', '!!! JSLint FAILED. !!!');
 }, { async: true });
 
 desc('Run the jasmine tests.');
 task('test', function () {
   var cmd = path.join('node_modules', 'jasmine-node', 'bin', 'jasmine-node');
-  execute('node', [cmd, 'spec'], 'Tests passed.', 'Tests failed.');
+  execute('node', [cmd, 'spec'], '*** Tests passed. ***', '!!! Tests FAILED. !!!');
 });
 
 // this exposes a 'package' task
@@ -58,11 +58,9 @@ task('autotest', function () {
   test();
   function test() {
     console.log('-------- Running Tests ---------\n\n');
-    var cmd = path.join('node_modules', 'jasmine-node', 'bin', 'jasmine-node'),
-      handle = spawn('node', [cmd, 'spec'], { customFds: [0, 1, 2] });
-
-    handle.on('exit', function () {
-      setTimeout(test, 6000);
+    var cmd = path.join('node_modules', 'jasmine-node', 'bin', 'jasmine-node');
+    runcmd('node', [cmd, 'spec'], function () {
+      setTimeout(test, 3000);
     });
   }
 });
@@ -74,14 +72,7 @@ function binpath(lib) {
 }
 
 function execute(cmd, args, successMessage, failureMessage, dontComplete) {
-  if (typeof args === 'string') {
-    args = [args];
-  }
-
-  // HACK: redirect output directly to file descriptors 0,1 and 2
-  // to avoid stream truncation issue on Windows.
-  var handle = spawn(cmd, args, { customFds: [0, 1, 2] });
-  handle.on('exit', function (code) {
+  runcmd(cmd, args, function (code) {
     if (code === 0) {
       console.log(successMessage);
     } else {
