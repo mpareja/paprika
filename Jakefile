@@ -2,7 +2,7 @@ var path = require('path'),
   fs = require('fs'),
   pckg = require('./package'),
   glob = require('glob'),
-  runcmd = require('./lib/paprika').runcmd;
+  run = require('./lib/paprika').run;
 
 desc('Run JSLint on all javascript files.');
 task('lint', function () {
@@ -59,7 +59,7 @@ task('autotest', function () {
   function test() {
     console.log('-------- Running Tests ---------\n\n');
     var cmd = path.join('node_modules', 'jasmine-node', 'bin', 'jasmine-node');
-    runcmd('node', [cmd, 'spec'], function () {
+    run('node', [cmd, 'spec'], function () {
       setTimeout(test, 3000);
     });
   }
@@ -72,7 +72,7 @@ function binpath(lib) {
 }
 
 function execute(cmd, args, successMessage, failureMessage, dontComplete) {
-  runcmd(cmd, args, function (code) {
+  run(cmd, args, function (code) {
     if (code === 0) {
       console.log(successMessage);
     } else {

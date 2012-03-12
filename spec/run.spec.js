@@ -1,7 +1,7 @@
-var runcmd = require('../lib/paprika').runcmd;
-  pa = runcmd.processArguments;
+var run = require('../lib/paprika').run;
+  pa = run.processArguments;
 
-describe('runcmd', function () {
+describe('run', function () {
   describe('parameter parsing', function () {
     it('should support parameter: cmd', function () {
       expect(pa('cmd')).toEqual({
