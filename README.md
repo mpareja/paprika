@@ -45,13 +45,13 @@ The run task takes the effort out of calling out to other processes. It takes ca
 
     run('pwd');
 
-The run function requires one parameters: the filename (may include path) of the process to run. It has several optional parameters - here is the function signature along with some other examples:
+The run function requires one parameter: the filename (may include path) of the process to run. It has several optional parameters - here is the function signature along with some other examples:
 
     // run(cmd [, args] [, options] [, callback])
     var run = require('paprika').run;
     run('node', '--version', {
-      stdout: false // by default, stdout is redirected to console
-      stderr: false // by default, stderr is redirected to console
+      stdout: false, // by default, stdout is redirected to console
+      stderr: false  // by default, stderr is redirected to console
     }, function () { complete(); });
 
     run('mycmd', ['many', 'options']);
