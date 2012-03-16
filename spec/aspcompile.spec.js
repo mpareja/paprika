@@ -1,36 +1,41 @@
-var aspcompile = require('../lib/paprika').aspcompile;
+var aspcompile = require('../lib/paprika').aspcompile,
+  getValidOptions = function () {
+    return {
+      virtualPath: '/myapp',
+      physicalPath: '/some/path',
+      version: 'net35',
+      processor: 'x86'
+    }
+  };
 
 describe('aspcompile', function () {
-  describe('parameters', function () {
+  function callWithoutParameter(parameter) {
+    var options = getValidOptions();
+    delete options[parameter];
+    aspcompile(options);
+  }
+  describe('required parameters', function () {
     it('should require the virtual path', function () {
       expect(function () {
-        aspcompile({ physicalPath: '/some/path' });
+        callWithoutParameter('virtualPath');
       }).toThrow('Missing parameter: virtualPath.');
     });
 
     it('should require the physical path', function () {
       expect(function () {
-        aspcompile({ virtualPath: '/myapp' });
+        callWithoutParameter('physicalPath');
       }).toThrow('Missing parameter: physicalPath.');
     });
 
     it('should require the .NET Framework version', function () {
       expect(function () {
-        aspcompile({
-          virtualPath: '/myapp',
-          physicalPath: '/some/path',
-          processor: 'x86'
-        });
+        callWithoutParameter('version');
       }).toThrow('Missing parameter: version.');
     });
 
     it('should require the .NET Framework processor architecture to use.', function () {
       expect(function () {
-        aspcompile({
-          virtualPath: '/myapp',
-          physicalPath: '/some/path',
-          version: 'net35'
-        });
+        callWithoutParameter('processor');
       }).toThrow('Missing parameter: processor.');
     });
   });
