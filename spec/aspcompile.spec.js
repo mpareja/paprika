@@ -40,13 +40,15 @@ describe('aspcompile', function () {
     });
   });
 
-  describe('configuring default parameters', function () {
+  describe('when calling compiler', function () {
     var run = aspcompile.run,
       cmd = null,
       args = null,
-      mockRun = function (foundcmd, foundargs) {
+      run_options = null;
+      mockRun = function (foundcmd, foundargs, options) {
         cmd = foundcmd;
         args = foundargs;
+        run_options = options;
       };
 
     beforeEach(function () { aspcompile.run = mockRun; });
@@ -54,6 +56,7 @@ describe('aspcompile', function () {
       aspcompile.run = run;
       cmd = null;
       args = null;
+      run_options = null;
     });
 
     function setDefaultAndAssert(option, value) {
@@ -71,24 +74,42 @@ describe('aspcompile', function () {
       aspcompile(options); // will throw if option not defined
     }
 
-    it('should allow specifying the default version', function () {
+    it('should allow specifying a default version', function () {
       setDefaultAndAssert('version', 'net35');
       expect(cmd).toMatch(/v2\.0/);
     });
 
-    it('should allow specifying the default processor', function () {
+    it('should allow specifying a default processor', function () {
       setDefaultAndAssert('processor', 'x64');
       expect(cmd).toMatch(/Framework64/);
     });
 
-    it('should allow specifying the default virtualPath', function () {
+    it('should allow specifying a default virtualPath', function () {
       setDefaultAndAssert('virtualPath', '/some/other/path');
       expect(args).toContain('/some/other/path');
     });
 
-    it('should allow specifying the default physicalPath', function () {
+    it('should allow specifying a default physicalPath', function () {
       setDefaultAndAssert('physicalPath', '/a/different/path');
       expect(args).toContain('/a/different/path');
+    });
+
+    it('should not forward options to run by default', function () {
+      aspcompile(getValidOptions());
+      expect(run_options).toBeFalsy();
+    });
+
+    it('should allow specifying default run_options', function () {
+      aspcompile.setDefaults({ run_options: { stdout: false } });
+      aspcompile(getValidOptions());
+      expect(run_options).toBeTruthy();
+    });
+
+    it('should forward run_options to run() when invoking compiler', function () {
+      var options = getValidOptions();
+      options.run_options = { stdout: false };
+      aspcompile(options);
+      expect(run_options).toBeTruthy();
     });
   });
 
@@ -123,7 +144,8 @@ describe('aspcompile', function () {
           physicalPath: './does/not/exist',
           virtualPath: './also/does/not/exist',
           processor: 'x86',
-          version: 'net35'
+          version: 'net35',
+          run_options: { stdout: false }
         }, callback);
       asyncSpecWait();
     });
