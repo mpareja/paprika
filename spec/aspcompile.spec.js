@@ -54,6 +54,7 @@ describe('aspcompile', function () {
     beforeEach(function () { aspcompile.run = mockRun; });
     afterEach(function () {
       aspcompile.run = run;
+      aspcompile.resetDefaults();
       cmd = null;
       args = null;
       run_options = null;
