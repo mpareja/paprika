@@ -26,23 +26,23 @@ Execute MSBuild using this task by passing in the required parameters. You can a
 
     var msbuild = require('paprika').msbuild;
     msbuild({
-        file: '../MySolution.sln'
-      , version: 'net35'
-      , processor: 'x86'
-      , targets: ['Clean', 'Build']
-      , properties: { Configuration: 'Release' }
-      , stdout: false // prevent redirection to stdout
-      , stderr: false // prevent redirection to stderr
-      , buildCommand: 'xbuild' // customize the location of MSBuild.exe (or xbuild)
-      , extraParameters: '/nologo /version' // add any additional parameters
+      file: '../MySolution.sln',
+      version: 'net35',
+      processor: 'x86',
+      targets: ['Clean', 'Build'],
+      properties: { Configuration: 'Release' },
+      stdout: false, // prevent redirection to stdout
+      stderr: false, // prevent redirection to stderr
+      buildCommand: 'xbuild', // customize the location of MSBuild.exe (or xbuild)
+      extraParameters: '/nologo /version' // add any additional parameters
     }, function () { complete(); });
 
 You can specify default values to prevent repeating yourself.
 
     var msbuild = require('paprika').msbuild;
     msbuild.setDefaults({
-        properties: { Configuration: 'Release' }
-      , buildCommand: 'xbuild'
+      properties: { Configuration: 'Release' },
+      buildCommand: 'xbuild'
     });
 
 ### Run task
