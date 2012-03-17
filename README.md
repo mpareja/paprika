@@ -72,6 +72,7 @@ Pre-compile your ASP .NET applications using this task. Ideally, you should comp
       physicalPath: 'build_temp/outdir/_PublishedWebsites/MyApp',
       targetPath: 'build_output/website',
       updatable: targetPathue, // false by default
-      debug: true // enables debug info and error stack information
+      debug: true, // enables debug info and error stack information
+      run_options: { stdout: false } // accepts same options as run task
     });
 
