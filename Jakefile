@@ -65,6 +65,10 @@ task('autotest', function () {
   }
 });
 
+task('push', ['lint', 'test'], function () {
+  run('git', 'push', complete);
+}, { async: true });
+
 task('default', ['lint', 'test']);
 
 function binpath(lib) {
