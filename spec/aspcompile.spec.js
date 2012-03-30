@@ -95,6 +95,18 @@ describe('aspcompile', function () {
       expect(args).toContain('/a/different/path');
     });
 
+    it('should allow specifying a default target directory', function () {
+      setDefaultAndAssert('targetPath', '/a/target');
+      expect(args).toContain('/a/target');
+    });
+
+    it('should allow specifying the target directory', function () {
+      var options = getValidOptions();
+      options.targetPath = '/a/path';
+      aspcompile(options);
+      expect(args).toContain('/a/path');
+    });
+
     it('should not forward options to run by default', function () {
       aspcompile(getValidOptions());
       expect(run_options).toBeFalsy();
