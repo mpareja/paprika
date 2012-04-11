@@ -12,7 +12,10 @@ describe('aspcompile', function () {
   function callWithoutParameter(parameter) {
     var options = getValidOptions();
     delete options[parameter];
+    var run = aspcompile.run;
+    aspcompile.run = function () {};
     aspcompile(options);
+    aspcompile.run = run;
   }
   describe('required parameters', function () {
     it('should require the virtual path', function () {
