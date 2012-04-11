@@ -25,8 +25,6 @@ task('lint', function () {
   // lint the Jakefile
   files.push('Jakefile');
 
-  // HACK: redirect output directly to file descriptors 0,1 and 2
-  // to avoid stream truncation issue on Windows.
   execute('node', args.concat(files), '*** JSLint passed. ***', '!!! JSLint FAILED. !!!');
 }, { async: true });
 
