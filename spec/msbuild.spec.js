@@ -142,3 +142,23 @@ describe('overridden msbuild defaults', function () {
   });
 });
 
+describe('required msbuild settings', function () {
+  it('should require some options', function () {
+    expect(function () {
+      msb.processOptions(null);
+    }).toThrow();
+  });
+
+  it('should require the file parameter', function () {
+    expect(function () {
+      msb.processOptions({ version: 'net40' })
+    }).toThrow();
+  });
+
+  it('should require the version parameter', function () {
+    expect(function () {
+      msb.processOptions({ file: '/some/file' })
+    }).toThrow();
+  });
+});
+
