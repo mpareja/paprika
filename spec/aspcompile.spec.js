@@ -1,4 +1,5 @@
 var aspcompile = require('../lib/paprika').aspcompile,
+  platform = process.platform,
   getValidOptions = function () {
     return {
       virtualPath: '/myapp',
@@ -54,8 +55,12 @@ describe('aspcompile', function () {
         run_options = options;
       };
 
-    beforeEach(function () { aspcompile.run = mockRun; });
+    beforeEach(function () {
+	  aspcompile.run = mockRun;
+	  process.platform = 'win32';
+	});
     afterEach(function () {
+	  process.platform = platform;
       aspcompile.run = run;
       aspcompile.resetDefaults();
       cmd = null;
@@ -130,7 +135,6 @@ describe('aspcompile', function () {
   });
 
   describe('non-windows OS', function () {
-    var platform = process.platform;
     beforeEach(function () { process.platform = 'linux'; });
     afterEach(function () { process.platform = platform; });
 
