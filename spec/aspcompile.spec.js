@@ -56,11 +56,12 @@ describe('aspcompile', function () {
       };
 
     beforeEach(function () {
-	  aspcompile.run = mockRun;
-	  process.platform = 'win32';
-	});
+      aspcompile.run = mockRun;
+      process.platform = 'win32';
+    });
+
     afterEach(function () {
-	  process.platform = platform;
+      process.platform = platform;
       aspcompile.run = run;
       aspcompile.resetDefaults();
       cmd = null;
