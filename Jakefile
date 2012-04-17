@@ -40,7 +40,8 @@ var p = new jake.PackageTask(pckg.name, pckg.version, function () {
   this.packageFiles.include([
     'README.md',
     'package.json',
-    'lib/ *'
+    'lib/ *',
+    'tools/*'
   ]);
 });
 
