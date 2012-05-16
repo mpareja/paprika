@@ -45,6 +45,16 @@ You can specify default values to prevent repeating yourself.
       buildCommand: 'xbuild'
     });
 
+### NUnit task
+
+Execute NUnit tests and determine if they passed or failed.
+
+	nunit(['Project.Tests.dll'], {
+		nunitDir: nunitDir, // path to nunit-console executable to use
+		subset: 'Project.Tests.UnitTests', // a namespace, fixture or test to run
+		run_options: { stdout: false } // the options to pass to the Run task
+	}, function (err) { console.log(err ? 'Failed!' : 'Passed!'); });
+
 ### Run task
 
 The run task takes the effort out of calling out to other processes. It takes care of operating system specific idiosyncrasies (I'm looking at you node for Windows) and assumes you either want output redirected to the console (default) or not at all. Here is a simple example to get started:
