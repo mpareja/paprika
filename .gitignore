@@ -1,3 +1,4 @@
 pkg/
+nunit/
 node_modules/
 npm-debug.log

@@ -2,6 +2,7 @@ var path = require('path'),
   fs = require('fs'),
   pckg = require('./package'),
   glob = require('glob'),
+  series = require('./lib/flow').series,
   run = require('./lib/paprika').run;
 
 desc('Run JSLint on all javascript files.');
@@ -70,6 +71,28 @@ task('push', ['lint', 'test'], function () {
 
 task('default', ['lint', 'test']);
 
+task('nunit_install', function () {
+  if (path.existsSync('nunit')) {
+    console.log('NUnit already installed');
+    return complete();
+  }
+
+  var version = 'NUnit-2.6.0.12051',
+    zip = version + '.zip',
+    url = 'https://launchpadlibrarian.net/93518353/' + zip,
+    unzip = path.join('tools', 'zip', 'unzip-x86.exe');
+
+  console.log('Downloading and extracting ' + version);
+
+  series(
+    function (cb) { run('curl', ['-C', '-', url, '--output', zip], cb); },
+    function (cb) { run(unzip,  [zip, '-d', '.'], cb); },
+    function (cb) { fs.rename(version, 'nunit', cb); },
+    function (cb) { fs.unlink(zip, cb); },
+    mycomplete
+  );
+}, { async: true });
+
 function binpath(lib) {
 	return path.join('node_modules', '.bin', lib);
 }
@@ -87,3 +110,10 @@ function execute(cmd, args, successMessage, failureMessage, dontComplete) {
   });
 }
 
+function mycomplete(err) {
+  if (err) {
+    fail(err);
+  }
+
+  complete();
+}
