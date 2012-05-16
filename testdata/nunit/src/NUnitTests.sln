@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passing", "Passing.csproj", "{6B536D52-086A-489D-B3CE-1D292DA546BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Failing", "Failing.csproj", "{59762FF8-1FDD-4481-8E5D-B31C42F094DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassingAndFailing", "PassingAndFailing.csproj", "{79E688A9-49C2-4671-9736-665C03EB2D22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B536D52-086A-489D-B3CE-1D292DA546BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B536D52-086A-489D-B3CE-1D292DA546BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B536D52-086A-489D-B3CE-1D292DA546BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B536D52-086A-489D-B3CE-1D292DA546BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59762FF8-1FDD-4481-8E5D-B31C42F094DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59762FF8-1FDD-4481-8E5D-B31C42F094DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59762FF8-1FDD-4481-8E5D-B31C42F094DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59762FF8-1FDD-4481-8E5D-B31C42F094DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79E688A9-49C2-4671-9736-665C03EB2D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79E688A9-49C2-4671-9736-665C03EB2D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79E688A9-49C2-4671-9736-665C03EB2D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79E688A9-49C2-4671-9736-665C03EB2D22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

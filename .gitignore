@@ -2,3 +2,4 @@
 /nunit/
 /node_modules/
 /npm-debug.log
+/testdata/nunit/src/obj/
