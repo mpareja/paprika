@@ -47,6 +47,7 @@ var p = new jake.PackageTask(pckg.name, pckg.version, function () {
   ]);
 });
 
+desc('Publish the package to npm.');
 task('publish', ['package'], function () {
 	var arc = pckg.name + '-' + pckg.version + '.tar.gz';
 	console.log('Publishing pkg/' + arc + '.');
@@ -55,6 +56,7 @@ task('publish', ['package'], function () {
 	}, {stdout: true});
 });
 
+desc('Ghetto man\'s autotest');
 task('autotest', function () {
   test();
   function test() {
@@ -66,6 +68,7 @@ task('autotest', function () {
   }
 });
 
+desc('Push changes up to GitHub repository.');
 task('push', ['lint', 'test'], function () {
   run('git', 'push', complete);
 }, { async: true });
@@ -73,6 +76,7 @@ task('push', ['lint', 'test'], function () {
 task('default', ['lint', 'test']);
 
 namespace('nunit', function () {
+  desc('Download NUnit binaries for testing.');
   task('install', function () {
     if (path.existsSync('nunit')) {
       console.log('NUnit already installed');
@@ -95,6 +99,7 @@ namespace('nunit', function () {
     );
   }, { async: true });
 
+  desc('Compile test projects for running NUnit tests.');
   task('compile', function () {
     msbuild({
       file: path.join('testdata', 'nunit', 'src', 'NUnitTests.sln'),
