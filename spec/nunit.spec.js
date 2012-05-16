@@ -4,6 +4,14 @@ var nunit = require('../lib/nunit'),
 
 describe('nunit', function () {
   it('needs to know where nunit lives', function () {
+    nunit('MyProject.UnitTests.dll', function (err) {
+      expect(err).toMatch('nunit');
+      asyncSpecDone();
+    });
+    asyncSpecWait();
+  });
+
+  it('verifies nunit exists', function () {
     nunit('MyProject.UnitTests.dll', { nunitDir: 'doesntExist' }, function (err) {
       expect(err).toMatch('nunit');
       asyncSpecDone();
