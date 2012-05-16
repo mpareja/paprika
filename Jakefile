@@ -34,7 +34,7 @@ desc('Run the jasmine tests.');
 task('test', function () {
   var cmd = path.join('node_modules', 'jasmine-node', 'bin', 'jasmine-node');
   execute('node', [cmd, 'spec'], '*** Tests passed. ***', '!!! Tests FAILED. !!!');
-});
+}, { async: true });
 
 // this exposes a 'package' task
 var p = new jake.PackageTask(pckg.name, pckg.version, function () {
@@ -54,7 +54,7 @@ task('publish', ['package'], function () {
 	jake.exec(['npm publish pkg/' + arc], function () {
 		complete();
 	}, {stdout: true});
-});
+}, { async: true });
 
 desc('Ghetto man\'s autotest');
 task('autotest', function () {
