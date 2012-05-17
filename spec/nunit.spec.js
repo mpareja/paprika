@@ -27,6 +27,10 @@ describe('nunit', function () {
     testProcessor('x86', /nunit-console-x86.exe$/);
   });
 
+  it('uses x86 processor if not supplied', function () {
+    testProcessor(null, /nunit-console-x86.exe$/);
+  });
+
   function testProcessor(proc, expected) {
     var run = nunit.run,
       testdll = path.join('testdata', 'nunit', 'Passing.dll');
@@ -35,7 +39,11 @@ describe('nunit', function () {
       expect(exe).toMatch(expected);
       process.nextTick(asyncSpecDone);
     };
-    nunit([testdll], { processor: proc, nunitDir: nunitDir }, function () {});
+    var options = { nunitDir: nunitDir };
+    if (proc) {
+      options.processor = proc;
+    }
+    nunit([testdll], options, function () {});
     asyncSpecWait();
   }
 
@@ -46,6 +54,14 @@ describe('nunit', function () {
   }
 
   describe('integration tests', function () {
+    beforeEach(function () {
+      nunit.setDefaults({
+        nunitDir: nunitDir,
+        run_options: { stdout: false }
+      });
+    });
+    afterEach(function () { nunit.resetDefaults(); });
+
     it('runs passing tests', function () {
       runTests('Passing.dll', function (err) {
         expect(err).toBeNull();
@@ -77,11 +93,8 @@ describe('nunit', function () {
         expectations = subset;
         subset = null;
       }
-      nunit(path.join('testdata', 'nunit', dll), {
-        nunitDir: nunitDir,
-        run_options: { stdout: false },
-        subset: subset
-      }, function (err) {
+      var target = path.join('testdata', 'nunit', dll);
+      nunit(target, { subset: subset }, function (err) {
         expectations(err);
         asyncSpecDone();
       });
