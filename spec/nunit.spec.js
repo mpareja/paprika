@@ -3,12 +3,10 @@ var nunit = require('../lib/nunit'),
   nunitDir = path.join('nunit', 'bin');
 
 describe('nunit', function () {
-  it('needs to know where nunit lives', function () {
-    nunit('MyProject.UnitTests.dll', function (err) {
-      expect(err).toMatch('nunit');
-      asyncSpecDone();
-    });
-    asyncSpecWait();
+  nunit.setDefaults({
+    nunitDir: nunitDir,
+    extraParameters: '/noxml',
+    run_options: { stdout: false }
   });
 
   it('verifies nunit exists', function () {
@@ -39,7 +37,7 @@ describe('nunit', function () {
       expect(exe).toMatch(expected);
       process.nextTick(asyncSpecDone);
     };
-    var options = { nunitDir: nunitDir };
+    var options = {};
     if (proc) {
       options.processor = proc;
     }
@@ -54,14 +52,6 @@ describe('nunit', function () {
   }
 
   describe('integration tests', function () {
-    beforeEach(function () {
-      nunit.setDefaults({
-        nunitDir: nunitDir,
-        run_options: { stdout: false }
-      });
-    });
-    afterEach(function () { nunit.resetDefaults(); });
-
     it('runs passing tests', function () {
       runTests('Passing.dll', function (err) {
         expect(err).toBeNull();
