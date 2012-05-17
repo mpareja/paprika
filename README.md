@@ -51,6 +51,7 @@ Execute NUnit tests and determine if they passed or failed.
 
 	nunit(['Project.Tests.dll'], {
 		nunitDir: nunitDir, // path to nunit-console executable to use
+		processor: 'x86', // can specify to use x86 or x64 bit version of runner
 		subset: 'Project.Tests.UnitTests', // a namespace, fixture or test to run
 		run_options: { stdout: false } // the options to pass to the Run task
 	}, function (err) { console.log(err ? 'Failed!' : 'Passed!'); });
