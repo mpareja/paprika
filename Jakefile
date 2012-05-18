@@ -2,9 +2,9 @@ var path = require('path'),
   fs = require('fs'),
   pckg = require('./package'),
   glob = require('glob'),
-  series = require('./lib/flow').series,
-  run = require('./lib/paprika').run,
-  msbuild = require('./lib/paprika').msbuild;
+  series = require('./').series,
+  run = require('./').run,
+  msbuild = require('./').msbuild;
 
 desc('Run JSLint on all javascript files.');
 task('lint', function () {
