@@ -1,4 +1,4 @@
-var zip = require('../lib/paprika').zip
+var zip = require('..').zip
   , arch = process.arch
   , platform = process.platform
   , fs = require('fs')
@@ -88,7 +88,7 @@ describe('zip', function () {
     it('should use the zip executable in the tools dir.', function () {
       go();
       expect(procname).toStartWith(
-      require('path').join(process.cwd(), 'tools', 'zip'));
+      path.join(process.cwd(), 'tools', 'zip'));
     });
   });
 });

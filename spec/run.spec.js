@@ -1,4 +1,4 @@
-var run = require('../lib/paprika').run;
+var run = require('..').run;
   pa = run.processArguments,
   defaultOptions = function () {
     return { stdout: true, stderr: true }

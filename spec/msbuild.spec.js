@@ -1,4 +1,4 @@
-var msb = require('../lib/paprika').msbuild;
+var msb = require('..').msbuild;
 
 function getDefaultExpected() {
   return {

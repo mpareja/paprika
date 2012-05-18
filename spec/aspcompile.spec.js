@@ -1,4 +1,4 @@
-var aspcompile = require('../lib/paprika').aspcompile,
+var aspcompile = require('..').aspcompile,
   platform = process.platform,
   getValidOptions = function () {
     return {
