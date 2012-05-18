@@ -1,4 +1,4 @@
-var nunit = require('../lib/nunit'),
+var nunit = require('..').nunit,
   path = require('path'),
   nunitDir = path.join('nunit', 'bin');
 
