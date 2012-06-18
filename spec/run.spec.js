@@ -1,4 +1,4 @@
-var run = require('..').run;
+var run = require(process.env.paprika || '..').run;
   pa = run.processArguments,
   defaultOptions = function () {
     return { stdout: true, stderr: true }

@@ -1,4 +1,4 @@
-var msb = require('..').msbuild;
+var msb = require(process.env.paprika || '..').msbuild;
 
 function getDefaultExpected() {
   return {

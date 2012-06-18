@@ -4,7 +4,8 @@ var path = require('path'),
   glob = require('glob'),
   series = require('./').series,
   run = require('./').run,
-  msbuild = require('./').msbuild;
+  msbuild = require('./').msbuild,
+  combinedPath = path.join(process.cwd(), 'paprika.combined.js');
 
 desc('Run JSLint on all javascript files.');
 task('lint', function () {
@@ -30,11 +31,39 @@ task('lint', function () {
   execute('node', args.concat(files), '*** JSLint passed. ***', '!!! JSLint FAILED. !!!');
 }, { async: true });
 
+desc('Combine paprika into one module.');
+task('combine', function () {
+  var allspice = require('allspice');
+  var dir = path.join(process.cwd(), 'lib');
+  fs.readdir(dir, function (err, files) {
+    if (err) { throw err; }
+
+    var absolute = files.map(function (file) { return path.join(dir, file); });
+    combineFiles(absolute, combinedPath);
+  });
+
+  function combineFiles(files, dest) {
+    var output = fs.createWriteStream(dest);
+    output.on('open', function () {
+      allspice(files, output, function (err) {
+        if (err) { return fail(err); }
+        complete();
+      });
+    });
+  }
+}, { async: true });
+
+var jasminePath = path.join('node_modules', 'jasmine-node', 'bin', 'jasmine-node');
 desc('Run the jasmine tests.');
 task('test', function () {
-  var cmd = path.join('node_modules', 'jasmine-node', 'bin', 'jasmine-node');
-  execute('node', [cmd, 'spec'], '*** Tests passed. ***', '!!! Tests FAILED. !!!');
+  execute('node', [jasminePath, 'spec'], '*** Tests passed. ***', '!!! Tests FAILED. !!!');
 }, { async: true });
+
+desc('Run the jasmine tests against the combined script.');
+task('testCombined', ['combine'], function () {
+  process.env.PAPRIKA = combinedPath;
+  execute('node', [jasminePath, 'spec'], '*** Tests passed. ***', '!!! Tests FAILED. !!!');
+});
 
 // this exposes a 'package' task
 var p = new jake.PackageTask(pckg.name, pckg.version, function () {
@@ -69,11 +98,11 @@ task('autotest', function () {
 });
 
 desc('Push changes up to GitHub repository.');
-task('push', ['lint', 'test'], function () {
+task('push', ['lint', 'test', 'testCombined'], function () {
   run('git', 'push', complete);
 }, { async: true });
 
-task('default', ['lint', 'test']);
+task('default', ['lint', 'test', 'testCombined']);
 
 namespace('nunit', function () {
   desc('Download NUnit binaries for testing.');

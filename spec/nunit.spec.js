@@ -1,4 +1,4 @@
-var nunit = require('..').nunit,
+var nunit = require(process.env.paprika || '..').nunit,
   path = require('path'),
   nunitDir = path.join('nunit', 'bin');
 
