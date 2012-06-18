@@ -68,7 +68,8 @@ The run function requires one parameter: the filename (may include path) of the 
     var run = require('paprika').run;
     run('node', '--version', {
       stdout: false, // by default, stdout is redirected to console
-      stderr: false  // by default, stderr is redirected to console
+      stderr: false, // by default, stderr is redirected to console
+	  spawn_options: { cwd: '/' } // options to pass onto child_process.spawn
     }, function () { complete(); });
 
     run('mycmd', ['many', 'options']);
