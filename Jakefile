@@ -47,21 +47,109 @@ task('combine', function () {
     output.on('open', function () {
       allspice(files, output, function (err) {
         if (err) { return fail(err); }
+        output.end();
         complete();
       });
     });
   }
 }, { async: true });
 
+namespace('combine', function () {
+  desc('Run the jasmine tests against the combined script.');
+  task('test', ['combine'], function () {
+    process.env.PAPRIKA = combinedPath;
+    execute('node', [jasminePath, 'spec'], '*** Tests passed. ***', '!!! Tests FAILED. !!!');
+  }, { async: true });
+
+  desc('Commit latest paprika.combined.js into gh-pages branch.');
+  task('commit', ['combine'], function () {
+    assertMasterWithoutChanges(function () {
+      evalLine('git log -1 --format=%H', function (err, commit) {
+        if (err) { return fail(err); }
+
+        jake.exec([
+          'git add --force paprika.combined.js',
+          'git stash',
+          'git checkout gh-pages',
+          'git stash pop', // if it fails here, its probably due to merge conflict
+          'git add paprika.combined.js'
+        ], commitChanges, { stderr: true });
+
+        function commitChanges() {
+          var message = 'AUTOCOMMIT: Updated combined paprika to commit ' + commit + '.';
+          hasChanges(function (changes) {
+            if (changes) {
+              jake.exec([
+                'git commit -m "' + message + '"',
+                'git checkout master',
+                'echo Updated paprika.combined to commit ' + commit
+              ], switchToMaster, { stderr: true });
+            } else {
+              console.log('Verified paprika.combined is up to date.');
+              switchToMaster();
+            }
+          });
+        }
+      });
+    });
+
+    function assertMasterWithoutChanges(continuation) {
+      evalLine('git symbolic-ref HEAD', function (err, branch) {
+        if (err) { return fail(err); }
+        if (branch.split('/')[2] !== 'master') { return fail('Not in master branch.'); }
+        hasChanges(function (changes) {
+          if (changes) { return fail('Uncommitted changes in working directory.'); }
+          continuation();
+        });
+      });
+    }
+
+    function switchToMaster() {
+      jake.exec(['git checkout master'], complete, { stderr: true });
+    }
+
+    function hasChanges(cb) {
+      evalLine('git status --porcelain', function (err, status) {
+        if (err) { return fail(err); }
+        cb(status !== '');
+      });
+    }
+  }, { async: true });
+
+  var evalLine = (function () {
+    function stripNewline(str) {
+      if (!str) {
+        return '';
+      }
+      return str.replace(/\n$/, '');
+    }
+    return function (cmdLine, cb) {
+      var spawn = require('child_process').spawn,
+        pieces = cmdLine.split(' '),
+        cmd = pieces[0],
+        args = pieces.slice(1),
+        handle = spawn(cmd, args),
+        result = '',
+        error = '';
+      handle.stdout.setEncoding('utf8');
+      handle.stdout.on('data', function (data) {
+        result += stripNewline(data);
+      });
+      handle.stderr.setEncoding('utf8');
+      handle.stderr.on('data', function (data) {
+        error += data;
+      });
+      handle.on('exit', function (code) {
+        if (code !== 0) { return cb(cmd + ' exited with code ' + code + ':\n' + error); }
+        cb(null, result);
+      });
+    };
+  }());
+});
+
 var jasminePath = path.join('node_modules', 'jasmine-node', 'bin', 'jasmine-node');
 desc('Run the jasmine tests.');
 task('test', function () {
-  execute('node', [jasminePath, 'spec'], '*** Tests passed. ***', '!!! Tests FAILED. !!!');
-}, { async: true });
-
-desc('Run the jasmine tests against the combined script.');
-task('testCombined', ['combine'], function () {
-  process.env.PAPRIKA = combinedPath;
   execute('node', [jasminePath, 'spec'], '*** Tests passed. ***', '!!! Tests FAILED. !!!');
 }, { async: true });
 
@@ -71,6 +159,7 @@ var p = new jake.PackageTask(pckg.name, pckg.version, function () {
   this.packageFiles.include([
     'README.md',
     'package.json',
+    'paprika.combined.js',
     'lib/ *',
     'tools/*'
   ]);
@@ -98,11 +187,11 @@ task('autotest', function () {
 });
 
 desc('Push changes up to GitHub repository.');
-task('push', ['lint', 'test', 'testCombined'], function () {
+task('push', ['lint', 'test', 'combine:test', 'combine:commit'], function () {
   run('git', 'push', complete);
 }, { async: true });
 
-task('default', ['lint', 'test', 'testCombined']);
+task('default', ['lint', 'test', 'combine:test']);
 
 namespace('nunit', function () {
   desc('Download NUnit binaries for testing.');

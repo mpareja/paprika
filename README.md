@@ -1,6 +1,6 @@
 # Paprika - Sprinkle JavaScript tasks on your .NET build
 
-Paprika is a JavaScript library of tasks commonly performed while building .NET applications.
+Paprika is a JavaScript library of tasks commonly performed while building .NET applications. Take advantage of paprika as a node module or as a single [self-contained paprika javascript](http://mpareja.github.com/paprika/paprika.combined.js) file.
 
 ## Tasks Included
 
