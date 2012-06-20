@@ -63,7 +63,7 @@ desc('Run the jasmine tests against the combined script.');
 task('testCombined', ['combine'], function () {
   process.env.PAPRIKA = combinedPath;
   execute('node', [jasminePath, 'spec'], '*** Tests passed. ***', '!!! Tests FAILED. !!!');
-});
+}, { async: true });
 
 // this exposes a 'package' task
 var p = new jake.PackageTask(pckg.name, pckg.version, function () {
