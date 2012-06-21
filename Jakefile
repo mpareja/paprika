@@ -167,7 +167,7 @@ var p = new jake.PackageTask(pckg.name, pckg.version, function () {
 });
 
 desc('Publish the package to npm.');
-task('publish', ['combine', 'package'], function () {
+task('publish', ['combine:commit', 'package'], function () {
 	var arc = pckg.name + '-' + pckg.version + '.tar.gz';
 	console.log('Publishing pkg/' + arc + '.');
 	jake.exec(['npm publish pkg/' + arc], function () {
@@ -188,7 +188,7 @@ task('autotest', function () {
 });
 
 desc('Push changes up to GitHub repository.');
-task('push', ['lint', 'test', 'combine:test', 'combine:commit'], function () {
+task('push', ['lint', 'test', 'combine:test'], function () {
   run('git', 'push', complete);
 }, { async: true });
 
