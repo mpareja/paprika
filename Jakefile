@@ -196,7 +196,7 @@ task('default', ['lint', 'test', 'combine:test']);
 namespace('nunit', function () {
   desc('Download NUnit binaries for testing.');
   task('install', function () {
-    if (path.existsSync('nunit')) {
+    if (fs.existsSync('nunit')) {
       console.log('NUnit already installed');
       return complete();
     }
