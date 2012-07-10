@@ -479,6 +479,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 var run = require('./run'),
   path = require('path'),
+  fs = require('fs'),
   series = require('./flow').series,
   applyDefaults = require('./options').applyDefaults,
   validateParameters = require('./options').validateParameters,
@@ -521,10 +522,10 @@ var nunit = module.exports = function (testDlls, opts, callback) {
 
   var nunitPath;
   var verifyFrameworkExists = [
-    function (cb) { path.exists(options.nunitDir, getExistsCallback(cb)); },
+    function (cb) { fs.exists(options.nunitDir, getExistsCallback(cb)); },
     function (cb) {
       nunitPath = path.join(options.nunitDir, nunitExe);
-      path.exists(nunitPath, getExistsCallback(cb));
+      fs.exists(nunitPath, getExistsCallback(cb));
     }
   ];
   series(verifyFrameworkExists, runTests);
@@ -638,6 +639,11 @@ futureExports['paprika'] = function () {
   var module = { exports: {} },
     exports = module.exports,
     require = getRequire('d:\\projects\\paprika\\lib');
+
+var fs = require('fs'),
+  path = require('path');
+if (!fs.exists) { fs.exists = path.exists; }
+if (!fs.existsSync) { fs.existsSync = path.existsSync; }
 
 exports.msbuild = require('./msbuild');
 exports.nunit = require('./nunit');
@@ -828,6 +834,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 var childProcess = require('child_process'),
   path = require('path'),
+  fs = require('fs'),
   log = require('./log');
 
 module.exports = function (args, cb, mockSpawn) {
@@ -847,7 +854,7 @@ function findExecutable(callback) {
   var zipexec;
   if (process.platform === 'win32') {
     var winpath = getWinPath();
-    path.exists(winpath, function (exists) {
+    fs.exists(winpath, function (exists) {
       callback(exists ? winpath : 'zip');
     });
   } else {
