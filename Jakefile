@@ -2,7 +2,7 @@ var path = require('path'),
   fs = require('fs'),
   pckg = require('./package'),
   glob = require('glob'),
-  series = require('./').series,
+  series = require('./lib/flow').series,
   run = require('./').run,
   msbuild = require('./').msbuild,
   combinedPath = path.join(process.cwd(), 'paprika.combined.js');
@@ -208,13 +208,12 @@ namespace('nunit', function () {
 
     console.log('Downloading and extracting ' + version);
 
-    series(
+    series([
       function (cb) { run('curl', ['-C', '-', url, '--output', zip], cb); },
       function (cb) { run(unzip,  [zip, '-d', '.'], cb); },
       function (cb) { fs.rename(version, 'nunit', cb); },
       function (cb) { fs.unlink(zip, cb); },
-      mycomplete
-    );
+    ], mycomplete);
   }, { async: true });
 
   desc('Compile test projects for running NUnit tests.');
