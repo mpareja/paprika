@@ -17,6 +17,12 @@ describe('nunit', function () {
     asyncSpecWait();
   });
 
+  if (!path.existsSync(nunitDir)) {
+    // disable remaining specs
+    console.log('!!! SKIPPING NUNIT TESTS !!!');
+    return;
+  }
+
   it('can run using 64-bit NUnit', function () {
     testProcessor('x64', /nunit-console.exe$/);
   });
@@ -41,14 +47,11 @@ describe('nunit', function () {
     if (proc) {
       options.processor = proc;
     }
-    nunit([testdll], options, function () {});
+    nunit([testdll], options, function (err) {
+      expect(err).toBeFalsy();
+      asyncSpecDone();
+    });
     asyncSpecWait();
-  }
-
-  if (!path.existsSync(nunitDir)) {
-    // disable remaining specs
-    describe = xdescribe;
-    console.log('!!! SKIPPING NUNIT TESTS !!!');
   }
 
   describe('integration tests', function () {
