@@ -38,7 +38,8 @@ task('combine', function () {
   fs.readdir(dir, function (err, files) {
     if (err) { throw err; }
 
-    var absolute = files.map(function (file) { return path.join(dir, file); });
+    var js = files.filter(function (file) { return (/\.js$/).test(file); });
+    var absolute = js.map(function (file) { return path.join(dir, file); });
     combineFiles(absolute, combinedPath);
   });
 
