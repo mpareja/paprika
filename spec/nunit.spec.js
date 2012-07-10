@@ -1,5 +1,6 @@
 var nunit = require(process.env.paprika || '..').nunit,
   path = require('path'),
+  fs = require('fs'),
   nunitDir = path.join('nunit', 'bin');
 
 describe('nunit', function () {
@@ -17,7 +18,7 @@ describe('nunit', function () {
     asyncSpecWait();
   });
 
-  if (!path.existsSync(nunitDir)) {
+  if (!fs.existsSync(nunitDir)) {
     // disable remaining specs
     console.log('!!! SKIPPING NUNIT TESTS !!!');
     return;

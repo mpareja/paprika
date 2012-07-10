@@ -118,7 +118,7 @@ describe('zip', function () {
 describe('zip integration test', function () {
   var target = 'ziptest.zip'
     , assertExists = function() { 
-        path.exists(target, function (exists) {
+        fs.exists(target, function (exists) {
             expect(exists).toBeTruthy();
             if (exists) {
               fs.unlinkSync(target);
