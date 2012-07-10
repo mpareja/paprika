@@ -167,7 +167,7 @@ var p = new jake.PackageTask(pckg.name, pckg.version, function () {
 });
 
 desc('Publish the package to npm.');
-task('publish', ['package'], function () {
+task('publish', ['combine', 'package'], function () {
 	var arc = pckg.name + '-' + pckg.version + '.tar.gz';
 	console.log('Publishing pkg/' + arc + '.');
 	jake.exec(['npm publish pkg/' + arc], function () {
