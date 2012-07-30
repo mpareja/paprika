@@ -1,4 +1,6 @@
-var run = require(process.env.paprika || '..').run;
+var paprika = require(process.env.paprika || '..'),
+  run = paprika.run,
+  shell = paprika.run.shell,
   pa = run.processArguments,
   defaultOptions = function () {
     return { stdout: true, stderr: true }
@@ -135,5 +137,33 @@ describe('run', function () {
         options: expected
       });
     }
+  });
+
+  describe('shell', function () {
+    it('should execute shell commands', function () {
+      shell([
+        'echo Hello',
+        'echo Jello'
+      ], { stdout: false, stderr: false }, function (err) {
+        expect(err).toBeFalsy();
+        asyncSpecDone();
+      });
+      asyncSpecWait();
+
+      function collect(data) { out += data.toString(); }
+    });
+
+    it('should abort executing on non-zero return value', function () {
+      shell([
+        'echo Hello',
+        'if failure',
+        'echo Jello > failure'
+      ], { stdout: false, stderr: false }, function (err) {
+        expect(err).toBeTruthy();
+        expect(require('path').existsSync('failure')).toBeFalsy();
+        asyncSpecDone();
+      });
+      asyncSpecWait();
+    });
   });
 });
